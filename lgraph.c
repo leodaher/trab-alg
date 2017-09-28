@@ -140,6 +140,7 @@ void l_graph_print(L_GRAPH* g) {
 }
 
 /*
+Imprime todos os vértices adjacentes ao vértice v
 */
 void l_graph_adj(L_GRAPH* g, int v) {
     NODE* aux = g->list[v]->next; // adjacentes ao vertice v
