@@ -36,6 +36,14 @@ int m_graph_checkedge(M_GRAPH* g, int row, int col) { //Verifica se existe arest
     return 1; // Aresta existe no grafo
 }
 
+float m_graph_getedge(M_GRAPH* g, int row, int col) {
+    return g->matrix[row][col];
+}
+
+void m_graph_setedge(M_GRAPH* g, int row, int col, float w) {
+    g->matrix[row][col] = w;
+}
+
 void m_graph_adj(M_GRAPH* g, int v) { //Mostra os vertices adjacentes do vertice desejado
     int i;
 
@@ -126,9 +134,10 @@ void m_graph_free(M_GRAPH* g) { //Libera o espaÃ§o armazenado pelo grafo na memÃ
     free(g);
 }
 
-void create_matrix (float **M, int n){
-    int k;
-    int i, j;
+float ** floyd_warshall (M_GRAPH* graph){
+    float ** M = graph->matrix;
+    int n = graph->n;
+    int i, j, k;
     for (k = 0; k < n; k++){
         for (i = 0; i < n; i++){
             for (j = 0; j < n; j++){
@@ -137,10 +146,13 @@ void create_matrix (float **M, int n){
             }
         }
     }
+
+    return M;
 }
 
-int vertice_mais_central (float **M, int n){
+int center_vertex (float **M, int n){
     int i, j;
+    
     float *aux = malloc(sizeof(float));
     for (j = 0; j < n; j++){
         int maior = M[0][j];
@@ -156,5 +168,5 @@ int vertice_mais_central (float **M, int n){
             menor = i;
 
     }
-    return i;
+    return menor;
 }

@@ -3,8 +3,10 @@
 #include "mgraph.h"
 
 int criterio1(M_GRAPH * graph, int * E) {
-  int result = 0;
+  int result;
+
   m_graph_multiply_edges(graph, E);
+  result = center_vertex(floyd_warshall(graph),m_graph_nvertex(graph));
 
   return result;
 }
@@ -50,5 +52,9 @@ int main() {
   int * E;
 
   graph = receiveData(&E);
+
+  int crit1 = criterio1(graph, E);
+
+  printf("%d", crit1);
 
 }
