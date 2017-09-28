@@ -2,9 +2,20 @@
 #include <stdlib.h>
 #include "mgraph.h"
 
+int criterio1(M_GRAPH * graph, int * E) {
+  int result = 0;
+
+  return result;
+}
+
+int criterio2(M_GRAPH * graph) {
+  int result = 0;
+
+  return result;
+}
+
 void receiveData(M_GRAPH * graph, int * E) {
   int N, M, i;
-  int * E;
 
   // recebe número de vértices e arestas
   scanf("%d %d", &N, &M);
@@ -28,8 +39,6 @@ void receiveData(M_GRAPH * graph, int * E) {
     // insere o produto entre a distância e o número de egressos da cidade de origem como peso
     m_graph_insert(graph, id1, id2, d);
   }
-
-  return graph;
 }
 
 int main() {
