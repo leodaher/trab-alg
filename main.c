@@ -11,6 +11,13 @@ int criterio1(M_GRAPH * graph, int * E) {
   return result;
 }
 
+int criterio2(M_GRAPH * graph) {
+    int i, j;
+    int *E = fill_E(graph);
+    float **matrix = floyd_warshall(graph, E);
+    float *aux = sum_rows(graph, matrix);
+    return encontra_menor(graph, aux);
+}
 
 
 M_GRAPH * receiveData(int ** E) {
