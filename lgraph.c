@@ -173,3 +173,20 @@ void l_graph_printloweredge(L_GRAPH *g) {
         } else printf("%d %d\n", col, row);
     } else printf("%d %d\n", row, col);
 }
+
+float** create_matrix (L_GRAPH* g, int n){
+    NODE *aux;
+    float **M;   
+    int i, j;
+    M = malloc (n * sizeof (float *));
+    for (i = 0; i < n; ++i)
+        M[i] = malloc (n * sizeof (float));
+    for (i = 0; i < n; i++){
+        aux = g->list[i];
+        while (aux != NULL){
+            M[i][g->list[i]->adj] = g->list[i]->weight;
+            aux = aux->next;
+        }
+    }
+}
+
