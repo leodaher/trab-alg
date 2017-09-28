@@ -125,3 +125,36 @@ void m_graph_free(M_GRAPH* g) { //Libera o espaÃ§o armazenado pelo grafo na memÃ
     free(g->matrix);
     free(g);
 }
+
+void create_matrix (float **M, int n){
+    int k;
+    int i, j;
+    for (k = 0; k < n; k++){
+        for (i = 0; i < n; i++){
+            for (j = 0; j < n; j++){
+                if (M[i][k] + M[k][j] < M[i][j])
+                    M[i][j] = M[i][k] + M[k][j];
+            }
+        }
+    }
+}
+
+int vertice_mais_central (float **M, int n){
+    int i, j;
+    float *aux = malloc(sizeof(float));
+    for (j = 0; j < n; j++){
+        int maior = M[0][j];
+        for (i = 0; i < n; i++){
+            if (M[i][j] > maior)
+                maior = M[i][j];
+        }
+        aux[j] = maior;
+    }
+    int menor = aux[0];
+    for (i = 0; i < n; i++){
+        if (aux[i] < menor)
+            menor = i;
+
+    }
+    return i;
+}

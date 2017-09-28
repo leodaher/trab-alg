@@ -18,5 +18,7 @@ void m_graph_remove(M_GRAPH*, int, int);
 int m_graph_nvertex(M_GRAPH*);
 void m_graph_printtranspose(M_GRAPH*);
 void m_graph_printloweredge(M_GRAPH*);
+void create_matrix (float **, int );
+int vertice_mais_central (float**, int);
 
 #endif /* mgraph_h */
