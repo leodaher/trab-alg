@@ -20,7 +20,10 @@ M_GRAPH* m_graph_create(int n, int dir) {  //Cria o grafo com a matriz recebendo
 
     for (i = 0; i < n; i++)
         for (j = 0; j < n; j++)
-            g->matrix[i][j] = -1; // matrix vazia
+            if(i == j)
+              g->matrix[i][j] = 0;
+            else
+              g->matrix[i][j] = -1; // matrix vazia
 
     return g;
 }
@@ -134,17 +137,25 @@ void m_graph_free(M_GRAPH* g) { //Libera o espaÃ§o armazenado pelo grafo na memÃ
     free(g);
 }
 
-float ** floyd_warshall (M_GRAPH* graph){
+float ** floyd_warshall (M_GRAPH* graph, int * E){
     float ** M = graph->matrix;
     int n = graph->n;
     int i, j, k;
     for (k = 0; k < n; k++){
         for (i = 0; i < n; i++){
             for (j = 0; j < n; j++){
-                if (M[i][k] + M[k][j] < M[i][j])
-                    M[i][j] = M[i][k] + M[k][j];
+                if(M[i][k] != -1 && M[k][j] != -1) {
+                  if (M[i][k] + M[k][j] < M[i][j] || M[i][j] == -1)
+                      M[i][j] = M[i][k] + M[k][j];
+                }
             }
         }
+    }
+
+    for(i = 0; i < n; i++) {
+      for(j = 0; j < n; j++) {
+        M[i][j] *= E[i];
+      }
     }
 
     return M;
@@ -152,19 +163,21 @@ float ** floyd_warshall (M_GRAPH* graph){
 
 int center_vertex (float **M, int n){
     int i, j;
-    
+
     float *aux = malloc(sizeof(float));
     for (j = 0; j < n; j++){
         int maior = M[0][j];
         for (i = 0; i < n; i++){
-            if (M[i][j] > maior)
+            if (M[i][j] > maior || M[i][j] == -1)
                 maior = M[i][j];
         }
         aux[j] = maior;
     }
-    int menor = aux[0];
+
+    int menor = 0;
+
     for (i = 0; i < n; i++){
-        if (aux[i] < menor)
+        if (aux[i] < aux[menor] || aux[menor] == -1)
             menor = i;
 
     }

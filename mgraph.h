@@ -20,7 +20,7 @@ void m_graph_remove(M_GRAPH*, int, int);
 int m_graph_nvertex(M_GRAPH*);
 void m_graph_printtranspose(M_GRAPH*);
 void m_graph_printloweredge(M_GRAPH*);
-float ** floyd_warshall (M_GRAPH*);
+float ** floyd_warshall (M_GRAPH*, int * E);
 int center_vertex (float**, int);
 
 #endif /* mgraph_h */

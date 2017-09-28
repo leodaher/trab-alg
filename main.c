@@ -6,7 +6,7 @@ int criterio1(M_GRAPH * graph, int * E) {
   int result;
 
   m_graph_multiply_edges(graph, E);
-  result = center_vertex(floyd_warshall(graph),m_graph_nvertex(graph));
+  result = center_vertex(floyd_warshall(graph, E), m_graph_nvertex(graph));
 
   return result;
 }
@@ -31,7 +31,7 @@ M_GRAPH * receiveData(int ** E) {
   }
 
   // inicializa o grafo
-  graph = m_graph_create(N, 1);
+  graph = m_graph_create(N, 0);
 
   // recebe as distâncias entre cidades e insere no grafo
   for(i = 0; i < M; i++) {
@@ -52,9 +52,8 @@ int main() {
   int * E;
 
   graph = receiveData(&E);
-
   int crit1 = criterio1(graph, E);
 
-  printf("%d", crit1);
+  printf("\nCritério 1: %d\n", crit1);
 
 }
