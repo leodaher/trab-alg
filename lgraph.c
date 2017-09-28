@@ -3,17 +3,20 @@
 #include "lgraph.h"
 
 struct node {
-    int adj;
-    int weight;
-    NODE *next;
+    int adj; // vertice adjacente
+    float weight; // peso do vertice
+    NODE *next; // ponteiro para o próximo adjacente
 };
 
 struct l_graph {
-    int dir;
-    int n;
+    int dir; // direcionado ou não
+    int n; //numero de vertices
     NODE** list;
 };
 
+/*
+Função recebe o número de vértices e se o grafo é direcionado ou não. E retorna um grafo.
+*/
 L_GRAPH* l_graph_create(int n, int dir) {
     L_GRAPH* g = (L_GRAPH*) malloc(sizeof(L_GRAPH));
     int i;
@@ -31,7 +34,10 @@ L_GRAPH* l_graph_create(int n, int dir) {
     return g;
 }
 
-void l_graph_insert_help(L_GRAPH* g, int orig, int dest, int w) {
+/*
+Função auxiliar de "l_graph_insert"
+*/
+void l_graph_insert_help(L_GRAPH* g, int orig, int dest, float w) {
     NODE *aux = g->list[orig];
     NODE *auxb = g->list[orig]->next;
     
@@ -58,13 +64,19 @@ void l_graph_insert_help(L_GRAPH* g, int orig, int dest, int w) {
         aux->next->weight = w;
         aux->next->next = auxb;
     }
-}
+} 
 
-void l_graph_insert(L_GRAPH* g, int orig, int dest, int w) {
+/*
+Função recebe vértice de origem (orig), vértice destino (dest) e o peso da aresta (w), e insere uma aresta entre eles
+*/
+void l_graph_insert(L_GRAPH* g, int orig, int dest, float w) {
     l_graph_insert_help(g,orig,dest,w);
     if (!g->dir) l_graph_insert_help(g,dest,orig,w);
 }
 
+/*
+Função auxiliar de "l_graph_remove"
+*/
 void l_graph_remove_help(L_GRAPH* g, int orig, int dest) {
     NODE *aux = g->list[orig];
     NODE *auxb = g->list[orig]->next;
@@ -81,13 +93,17 @@ void l_graph_remove_help(L_GRAPH* g, int orig, int dest) {
     }
 }
 
-
+/*
+Remove um vértice
+*/
 void l_graph_remove(L_GRAPH* g, int orig, int dest) {
     l_graph_remove_help(g,orig,dest);
     if (!g->dir) l_graph_remove_help(g,dest,orig);
 }
 
-
+/*
+Percorre todas as listas e libera os vértices, liberando o espaço usado por todo o grafo
+*/
 void l_graph_free(L_GRAPH* g) {
     NODE *aux;
     int i;
@@ -105,6 +121,9 @@ void l_graph_free(L_GRAPH* g) {
     free(g);
 }
 
+/*
+Imprime para cada vértice do grafo seus vértices adjacentes e os respectivos pesos
+*/
 void l_graph_print(L_GRAPH* g) {
     NODE* aux;
     int i;
@@ -120,6 +139,8 @@ void l_graph_print(L_GRAPH* g) {
     }
 }
 
+/*
+*/
 void l_graph_adj(L_GRAPH* g, int v) {
     NODE* aux = g->list[v]->next; // adjacentes ao vertice v
     
