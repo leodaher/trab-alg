@@ -183,3 +183,31 @@ int center_vertex (float **M, int n){
     }
     return menor;
 }
+
+int criterio2(M_GRAPH * graph) {
+  int result = 0;
+  int i, j;
+  int nver = graph->n;
+  int *E = (int*) malloc(sizeof(int)*nver);
+  for(i = 0; i < nver; i++) {
+    E[i] = 1;
+  }
+  float **matrix = floyd_warshall(graph, E);
+  float *aux = malloc(sizeof(float));
+  for (j = 0; j < nver; j++) {
+    float soma = 0;
+    int div = 0;
+    for (i = 0; i < nver; i++) {
+      soma += matrix[i][j];
+      if (matrix[i][j] > 0)
+        div++;
+    }
+    aux[j] = soma/div;
+  }
+  for (i = 0; i < nver; i++) {
+    if (aux[i] < aux[result])
+      result = i;
+  }
+
+  return result;
+}

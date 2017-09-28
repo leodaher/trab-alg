@@ -11,11 +11,7 @@ int criterio1(M_GRAPH * graph, int * E) {
   return result;
 }
 
-int criterio2(M_GRAPH * graph) {
-  int result = 0;
 
-  return result;
-}
 
 M_GRAPH * receiveData(int ** E) {
   int N, M, i;
@@ -55,5 +51,7 @@ int main() {
   int crit1 = criterio1(graph, E);
 
   printf("\nCritério 1: %d\n", crit1);
+
+  printf("\nCritério 2: %d\n", criterio2(graph));
 
 }

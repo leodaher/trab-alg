@@ -22,5 +22,6 @@ void m_graph_printtranspose(M_GRAPH*);
 void m_graph_printloweredge(M_GRAPH*);
 float ** floyd_warshall (M_GRAPH*, int * E);
 int center_vertex (float**, int);
+int criterio2(M_GRAPH*);
 
 #endif /* mgraph_h */
