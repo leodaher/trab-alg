@@ -3,12 +3,12 @@
 #include "mgraph.h"
 
 struct m_graph {
-    int dir; // direcionado ou nao
-    int n;  // tamanho (num de vertices)
+    int dir; // indica se o grafo é ou nao direcionado
+    int n;  // tamanho (numero de vertices)
     int** matrix;
 };
 
-M_GRAPH* m_graph_create(int n, int dir) {
+M_GRAPH* m_graph_create(int n, int dir) {  //Cria o grafo com a matriz recebendo o numero de vertices e dizendo se é ou nao direcionada
     M_GRAPH* g = (M_GRAPH*) malloc(sizeof(M_GRAPH));
     int i, j;
     
@@ -25,17 +25,18 @@ M_GRAPH* m_graph_create(int n, int dir) {
     return g;
 }
 
-void m_graph_insert(M_GRAPH* g, int row, int col, int w) {
+void m_graph_insert(M_GRAPH* g, int row, int col, int w) { //Insere uma aresta na matriz
     g->matrix[row][col] = w;
     if (!g->dir) g->matrix[col][row] = w;
 }
 
-int m_graph_checkedge(M_GRAPH* g, int row, int col) {
-    if (g->matrix[row][col] < 0) return 0;
-    return 1; // aresta existe no grafo
+int m_graph_checkedge(M_GRAPH* g, int row, int col) { //Verifica se existe aresta
+    if (g->matrix[row][col] < 0) 
+         return 0;//Aresta não existe no grafo
+    return 1; // Aresta existe no grafo
 }
 
-void m_graph_adj(M_GRAPH* g, int v) {
+void m_graph_adj(M_GRAPH* g, int v) { //Mostra os vertices adjacentes do vertice desejado
     int i;
     
     for (i = 0; i < g->n; i++) {
@@ -45,7 +46,7 @@ void m_graph_adj(M_GRAPH* g, int v) {
     printf("\n");
 }
 
-void m_graph_remove(M_GRAPH* g, int row, int col) {
+void m_graph_remove(M_GRAPH* g, int row, int col) { //Remove uma das arestas do grafo
     g->matrix[row][col] = -1;
     if (!g->dir) g->matrix[col][row] = -1;
 }
@@ -54,7 +55,7 @@ int m_graph_nvertex(M_GRAPH* g) {
     return g->n;
 }
 
-void m_graph_print(M_GRAPH* g) {
+void m_graph_print(M_GRAPH* g) { //Apresenta o Grafo printando para o usuario
     int i, j;
     for (i = 0; i < g->n; i++) {
         for (j = 0; j < g->n; j++) {
@@ -88,7 +89,7 @@ void m_graph_printtranspose(M_GRAPH* g) {
     m_graph_free(t);
 }
 
-void m_graph_printloweredge(M_GRAPH* g) {
+void m_graph_printloweredge(M_GRAPH* g) { 
     int i, j, row, col, lower = MAX;
     
     for (i = 0; i < g->n; i++) {
@@ -107,7 +108,7 @@ void m_graph_printloweredge(M_GRAPH* g) {
     } else printf("%d %d\n", row, col);
 }
 
-void m_graph_free(M_GRAPH* g) {
+void m_graph_free(M_GRAPH* g) { //Libera o espaço armazenado pelo grafo na memória, vulgo apaga ela
     int i;
     for (i = 0; i < g->n; i++) free(g->matrix[i]);
     free(g->matrix);
