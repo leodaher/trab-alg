@@ -9,7 +9,7 @@ typedef struct l_graph L_GRAPH;
 typedef struct node NODE;
 
 L_GRAPH* l_graph_create(int, int);
-void l_graph_insert(L_GRAPH*, int, int, int);
+void l_graph_insert(L_GRAPH*, int, int, float);
 void l_graph_remove(L_GRAPH*, int, int);
 void l_graph_free(L_GRAPH*);
 void l_graph_print(L_GRAPH*);
