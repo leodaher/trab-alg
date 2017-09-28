@@ -1,11 +1,21 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "lgraph.h"
+#include "mgraph.h"
 
-L_GRAPH * receiveData() {
+int criterio1(M_GRAPH * graph, int * E) {
+  int result = 0;
+
+  return result;
+}
+
+int criterio2(M_GRAPH * graph) {
+  int result = 0;
+
+  return result;
+}
+
+void receiveData(M_GRAPH * graph, int * E) {
   int N, M, i;
-  int * E;
-  L_GRAPH * graph;
 
   // recebe número de vértices e arestas
   scanf("%d %d", &N, &M);
@@ -17,7 +27,7 @@ L_GRAPH * receiveData() {
   }
 
   // inicializa o grafo
-  graph = l_graph_create(N, 1);
+  graph = m_graph_create(N, 1);
 
   // recebe as distâncias entre cidades e insere no grafo
   for(i = 0; i < M; i++) {
@@ -26,13 +36,14 @@ L_GRAPH * receiveData() {
 
     scanf("%d %d %f", &id1, &id2, &d);
 
-    // insere o produto entre a distância e o número de egressos na cidade de origem
-    l_graph_insert(graph, id1, id2, E[id1]*d);
+    // insere o produto entre a distância e o número de egressos da cidade de origem como peso
+    m_graph_insert(graph, id1, id2, d);
   }
-
-  return graph;
 }
 
 int main() {
-  L_GRAPH * graph = receiveData();
+  M_GRAPH * graph;
+  int * E;
+
+  receiveData(graph, E);
 }

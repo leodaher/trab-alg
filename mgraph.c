@@ -3,29 +3,29 @@
 #include "mgraph.h"
 
 struct m_graph {
-    int dir; // indica se o grafo é ou nao direcionado
-    int n;  // tamanho (numero de vertices)
-    int** matrix;
+    int dir; // direcionado ou nao
+    int n;  // tamanho (num de vertices)
+    float** matrix;
 };
 
 M_GRAPH* m_graph_create(int n, int dir) {  //Cria o grafo com a matriz recebendo o numero de vertices e dizendo se é ou nao direcionada
     M_GRAPH* g = (M_GRAPH*) malloc(sizeof(M_GRAPH));
     int i, j;
-    
+
     g->n = n;
     g->dir = dir;
-    g->matrix = (int **) malloc(sizeof(int *) * n);
+    g->matrix = (float **) malloc(sizeof(float *) * n);
     for (i = 0; i < n; i++)
-        g->matrix[i] = (int *) malloc(sizeof(int) * n);
-    
+        g->matrix[i] = (float *) malloc(sizeof(float) * n);
+
     for (i = 0; i < n; i++)
         for (j = 0; j < n; j++)
             g->matrix[i][j] = -1; // matrix vazia
-    
+
     return g;
 }
 
-void m_graph_insert(M_GRAPH* g, int row, int col, int w) { //Insere uma aresta na matriz
+void m_graph_insert(M_GRAPH* g, int row, int col, float w) { //Insere uma aresta na matriz
     g->matrix[row][col] = w;
     if (!g->dir) g->matrix[col][row] = w;
 }
@@ -38,7 +38,7 @@ int m_graph_checkedge(M_GRAPH* g, int row, int col) { //Verifica se existe arest
 
 void m_graph_adj(M_GRAPH* g, int v) { //Mostra os vertices adjacentes do vertice desejado
     int i;
-    
+
     for (i = 0; i < g->n; i++) {
         if (g->matrix[v][i] >= 0)
             printf("%d ", i); // vertices adjacentes
@@ -60,7 +60,7 @@ void m_graph_print(M_GRAPH* g) { //Apresenta o Grafo printando para o usuario
     for (i = 0; i < g->n; i++) {
         for (j = 0; j < g->n; j++) {
             if (g->matrix[i][j] < 0) printf(". ");
-            else printf("%d ", g->matrix[i][j]);
+            else printf("%f ", g->matrix[i][j]);
         }
         printf("\n");
     }
@@ -69,29 +69,29 @@ void m_graph_print(M_GRAPH* g) { //Apresenta o Grafo printando para o usuario
 M_GRAPH* m_graph_transpose(M_GRAPH* g) {
     M_GRAPH* t = m_graph_create(g->n,g->dir);
     int i, j;
-    
+
     for (i = 0; i < t->n; i++)
         for (j = 0; j < t->n; j++)
             t->matrix[j][i] = g->matrix[i][j]; // transposicao
-    
+
     return t;
 }
 
 void m_graph_printtranspose(M_GRAPH* g) {
     M_GRAPH* t = m_graph_create(g->n,g->dir);
     int i, j;
-    
+
     for (i = 0; i < t->n; i++)
         for (j = 0; j < t->n; j++)
             t->matrix[j][i] = g->matrix[i][j]; // transposicao
-    
+
     m_graph_print(t);
     m_graph_free(t);
 }
 
 void m_graph_printloweredge(M_GRAPH* g) { 
     int i, j, row, col, lower = MAX;
-    
+
     for (i = 0; i < g->n; i++) {
         for (j = 0; j < g->n; j++) {
             if (g->matrix[i][j] < lower && g->matrix[i][j] >= 0) {
@@ -100,7 +100,7 @@ void m_graph_printloweredge(M_GRAPH* g) {
             }
         }
     }
-    
+
     if (!g->dir) { // printa a aresta com menor peso corretamente
         if (row <= col) {
             printf("%d %d\n", row, col);
