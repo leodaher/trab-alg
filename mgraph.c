@@ -31,7 +31,7 @@ void m_graph_insert(M_GRAPH* g, int row, int col, float w) { //Insere uma aresta
 }
 
 int m_graph_checkedge(M_GRAPH* g, int row, int col) { //Verifica se existe aresta
-    if (g->matrix[row][col] < 0) 
+    if (g->matrix[row][col] < 0)
          return 0;//Aresta não existe no grafo
     return 1; // Aresta existe no grafo
 }
@@ -66,6 +66,17 @@ void m_graph_print(M_GRAPH* g) { //Apresenta o Grafo printando para o usuario
     }
 }
 
+void m_graph_multiply_edges(M_GRAPH* g, int * e) {
+  int i, j;
+  for(i = 0; i < g->n; i++) {
+    for(j = 0; j < g->n; j++) {
+      if (g->matrix[i][j] > 0) {
+        g->matrix[i][j] *= e[i];
+      }
+    }
+  }
+}
+
 M_GRAPH* m_graph_transpose(M_GRAPH* g) {
     M_GRAPH* t = m_graph_create(g->n,g->dir);
     int i, j;
@@ -89,7 +100,7 @@ void m_graph_printtranspose(M_GRAPH* g) {
     m_graph_free(t);
 }
 
-void m_graph_printloweredge(M_GRAPH* g) { 
+void m_graph_printloweredge(M_GRAPH* g) {
     int i, j, row, col, lower = MAX;
 
     for (i = 0; i < g->n; i++) {

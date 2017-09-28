@@ -4,6 +4,7 @@
 
 int criterio1(M_GRAPH * graph, int * E) {
   int result = 0;
+  m_graph_multiply_edges(graph, E);
 
   return result;
 }
@@ -14,16 +15,17 @@ int criterio2(M_GRAPH * graph) {
   return result;
 }
 
-void receiveData(M_GRAPH * graph, int * E) {
+M_GRAPH * receiveData(int ** E) {
   int N, M, i;
+  M_GRAPH * graph;
 
   // recebe número de vértices e arestas
   scanf("%d %d", &N, &M);
 
   //recebe número de egressos por cidade
-  E = (int*) malloc(sizeof(int)*N);
+  *E = (int*) malloc(sizeof(int)*N);
   for(i = 0; i < N; i++) {
-    scanf("%d", &(E[i]));
+    scanf("%d", &((*E)[i]));
   }
 
   // inicializa o grafo
@@ -39,11 +41,14 @@ void receiveData(M_GRAPH * graph, int * E) {
     // insere o produto entre a distância e o número de egressos da cidade de origem como peso
     m_graph_insert(graph, id1, id2, d);
   }
+
+  return graph;
 }
 
 int main() {
   M_GRAPH * graph;
   int * E;
 
-  receiveData(graph, E);
+  graph = receiveData(&E);
+
 }
