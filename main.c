@@ -5,7 +5,7 @@
 int criterio1(M_GRAPH * graph, int * E) {
   int result;
 
-  m_graph_multiply_edges(graph, E);
+  //m_graph_multiply_edges(graph, E);
   result = center_vertex(floyd_warshall(graph, E), m_graph_nvertex(graph));
 
   return result;
@@ -16,7 +16,13 @@ int criterio2(M_GRAPH * graph) {
     int *E = fill_E(graph);
     float **matrix = floyd_warshall(graph, E);
     float *aux = sum_rows(graph, matrix);
-    return encontra_menor(graph, aux);
+    int result = 0;
+    int n = m_graph_nvertex(graph);
+    for (i = 0; i < n; i++) {
+        if (aux[i] < aux[result])
+            result = i;
+    }
+    return result;
 }
 
 

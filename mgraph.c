@@ -207,12 +207,3 @@ float * sum_rows(M_GRAPH * graph, float **matrix) {
   return aux;
 }
 
-int encontra_menor(M_GRAPH * graph, float *aux) {
-    int i;
-    int result = 0;
-    for (i = 0; i < graph->n; i++) {
-        if (aux[i] < aux[result])
-            result = i;
-    }
-    return result;
-}

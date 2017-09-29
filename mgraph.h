@@ -24,6 +24,5 @@ float ** floyd_warshall (M_GRAPH*, int * E);
 int center_vertex (float**, int);
 int * fill_E(M_GRAPH*);
 float * sum_rows(M_GRAPH*, float**);
-int encontra_menor(M_GRAPH*, float*);
 
 #endif /* mgraph_h */
