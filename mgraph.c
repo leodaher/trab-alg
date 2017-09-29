@@ -166,12 +166,14 @@ int center_vertex (float **M, int n){
 
     float *aux = malloc(sizeof(float));
     for (j = 0; j < n; j++){
-        int maior = M[0][j];
+        int soma = 0;
         for (i = 0; i < n; i++){
-            if (M[i][j] > maior || M[i][j] == -1)
-                maior = M[i][j];
+            if (M[i][j] == -1)
+                soma = -1;
+            else
+                soma += M[i][j];
         }
-        aux[j] = maior;
+        aux[j] = soma;
     }
 
     int menor = 0;
@@ -206,4 +208,3 @@ float * sum_rows(M_GRAPH * graph, float **matrix) {
   }
   return aux;
 }
-
