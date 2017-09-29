@@ -191,7 +191,7 @@ int * fill_E(M_GRAPH * graph) {
     return E;
 }
 
-float * sum_rows(M_GRAPH * graph, float **matrix) {
+float * sum_cols(M_GRAPH * graph, float **matrix) {
     int i, j;
     float *aux = malloc(sizeof(float));
     for (j = 0; j < graph->n; j++) {

@@ -15,7 +15,7 @@ int criterio2(M_GRAPH * graph) {
     int i, j;
     int *E = fill_E(graph);
     float **matrix = floyd_warshall(graph, E);
-    float *aux = sum_rows(graph, matrix);
+    float *aux = sum_cols(graph, matrix);
     int result = 0;
     int n = m_graph_nvertex(graph);
     for (i = 0; i < n; i++) {
