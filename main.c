@@ -3,23 +3,19 @@
 #include "mgraph.h"
 
 int criterio1(M_GRAPH * graph, int * E) {
-  int result;
 
-  //m_graph_multiply_edges(graph, E);
-  float **matrix = floyd_warshall(graph, E);
-  result = center_vertex(matrix, m_graph_nvertex(graph));
-
+  int result = center_vertex(floyd_warshall(graph, E), m_graph_nvertex(graph));
   return result;
 }
 
 int criterio2(M_GRAPH * graph) {
     int i, j;
-    int *E = fill_E(graph);
+
+    float **matrix = floyd_warshall(graph, NULL);
+    float *aux = sum_rows(graph, matrix);
+    int result = 0;
     int n = m_graph_nvertex(graph);
 
-    /*float **matrix = (float **) malloc(sizeof(float *) * n);
-    for (i = 0; i < n; i++)
-        matrix[i] = (float *) malloc(sizeof(float) * n);*/
     float *aux = sum_cols(graph, floyd_warshall(graph, E));
     int result = 0;
     for (i = 0; i < n; i++) {
@@ -67,11 +63,9 @@ int main() {
   graph = receiveData(&E);
 
   int crit2 = criterio2(graph);
-
   int crit1 = criterio1(graph, E);
-
   printf("\nCritério 1: %d\n", crit1);
-
   printf("\nCritério 2: %d\n", crit2);
 
+  return 0;
 }
