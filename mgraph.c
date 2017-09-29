@@ -8,7 +8,13 @@ struct m_graph {
     float** matrix;
 };
 
-M_GRAPH* m_graph_create(int n, int dir) {  //Cria o grafo com a matriz recebendo o numero de vertices e dizendo se é ou nao direcionada
+/*
+  @desc - cria grafo utilizando o tamanho e sabendo se é direcionado ou não
+  @param int n - tamanho do grafo (número de vértices)
+  @param int dir - direcionado ou não
+  @return M_GRAPH * - grafo
+*/
+M_GRAPH* m_graph_create(int n, int dir) {
     M_GRAPH* g = (M_GRAPH*) malloc(sizeof(M_GRAPH));
     int i, j;
 
@@ -28,118 +34,43 @@ M_GRAPH* m_graph_create(int n, int dir) {  //Cria o grafo com a matriz recebendo
     return g;
 }
 
-void m_graph_insert(M_GRAPH* g, int row, int col, float w) { //Insere uma aresta na matriz
+/*
+  @desc - insere aresta com peso w entre dois nós
+  @param M_GRAPH* g - grafo
+  @param int row - nó de origem
+  @param int col - nó de destino
+  @param float w - peso da aresta
+*/
+void m_graph_insert(M_GRAPH* g, int row, int col, float w) {
     g->matrix[row][col] = w;
     if (!g->dir) g->matrix[col][row] = w;
 }
 
-int m_graph_checkedge(M_GRAPH* g, int row, int col) { //Verifica se existe aresta
-    if (g->matrix[row][col] < 0)
-         return 0;//Aresta não existe no grafo
-    return 1; // Aresta existe no grafo
-}
-
-float m_graph_getedge(M_GRAPH* g, int row, int col) {
-    return g->matrix[row][col];
-}
-
-void m_graph_setedge(M_GRAPH* g, int row, int col, float w) {
-    g->matrix[row][col] = w;
-}
-
-void m_graph_adj(M_GRAPH* g, int v) { //Mostra os vertices adjacentes do vertice desejado
-    int i;
-
-    for (i = 0; i < g->n; i++) {
-        if (g->matrix[v][i] >= 0)
-            printf("%d ", i); // vertices adjacentes
-    }
-    printf("\n");
-}
-
-void m_graph_remove(M_GRAPH* g, int row, int col) { //Remove uma das arestas do grafo
-    g->matrix[row][col] = -1;
-    if (!g->dir) g->matrix[col][row] = -1;
-}
-
+/*
+  @desc - retorna o número de vértices em um grafo
+  @param M_GRAPH * g - grafo
+  @return int - número de vértices
+*/
 int m_graph_nvertex(M_GRAPH* g) {
     return g->n;
 }
 
-void m_graph_print(M_GRAPH* g) { //Apresenta o Grafo printando para o usuario
-    int i, j;
-    for (i = 0; i < g->n; i++) {
-        for (j = 0; j < g->n; j++) {
-            if (g->matrix[i][j] < 0) printf(". ");
-            else printf("%f ", g->matrix[i][j]);
-        }
-        printf("\n");
-    }
-}
-
-void m_graph_multiply_edges(M_GRAPH* g, int * e) {
-  int i, j;
-  for(i = 0; i < g->n; i++) {
-    for(j = 0; j < g->n; j++) {
-      if (g->matrix[i][j] > 0) {
-        g->matrix[i][j] *= e[i];
-      }
-    }
-  }
-}
-
-M_GRAPH* m_graph_transpose(M_GRAPH* g) {
-    M_GRAPH* t = m_graph_create(g->n,g->dir);
-    int i, j;
-
-    for (i = 0; i < t->n; i++)
-        for (j = 0; j < t->n; j++)
-            t->matrix[j][i] = g->matrix[i][j]; // transposicao
-
-    return t;
-}
-
-void m_graph_printtranspose(M_GRAPH* g) {
-    M_GRAPH* t = m_graph_create(g->n,g->dir);
-    int i, j;
-
-    for (i = 0; i < t->n; i++)
-        for (j = 0; j < t->n; j++)
-            t->matrix[j][i] = g->matrix[i][j]; // transposicao
-
-    m_graph_print(t);
-    m_graph_free(t);
-}
-
-void m_graph_printloweredge(M_GRAPH* g) {
-    int i, j, row, col, lower = MAX;
-
-    for (i = 0; i < g->n; i++) {
-        for (j = 0; j < g->n; j++) {
-            if (g->matrix[i][j] < lower && g->matrix[i][j] >= 0) {
-                lower = g->matrix[i][j];
-                row = i; col = j;
-            }
-        }
-    }
-
-    if (!g->dir) { // printa a aresta com menor peso corretamente
-        if (row <= col) {
-            printf("%d %d\n", row, col);
-        } else printf("%d %d\n", col, row);
-    } else printf("%d %d\n", row, col);
-}
-
-void m_graph_free(M_GRAPH* g) { //Libera o espaço armazenado pelo grafo na memória, vulgo apaga ela
+void m_graph_free(M_GRAPH* g) {
     int i;
     for (i = 0; i < g->n; i++) free(g->matrix[i]);
     free(g->matrix);
     free(g);
 }
 
-float ** floyd_warshall (M_GRAPH* graph, int * E){
-    float ** M = graph->matrix;
-    int n = graph->n;
+/*
+  @desc - aplica o algoritmo de Floyd Warshall no grafo e multiplica cada linha da matriz obtida por um peso
+  @param M_GRAPH * g - grafo
+  @param int * E - vetor de pesos
+  @return float ** - matriz com menores caminhos ponderados
+*/
+float ** floyd_warshall (M_GRAPH* g, int * E){
+    float ** M = g->matrix;
+    int n = g->n;
     int i, j, k;
     for (k = 0; k < n; k++){
         for (i = 0; i < n; i++){
@@ -152,15 +83,23 @@ float ** floyd_warshall (M_GRAPH* graph, int * E){
         }
     }
 
-    for(i = 0; i < n; i++) {
-      for(j = 0; j < n; j++) {
-        M[i][j] *= E[i];
+    if(E != NULL) {
+      for(i = 0; i < n; i++) {
+        for(j = 0; j < n; j++) {
+          M[i][j] *= E[i];
+        }
       }
     }
 
     return M;
 }
 
+/*
+  @desc - função que retorna o vértice mais central de um grafo a partir da matriz obtida pelo algoritmo de Floyd Warshall
+  @param float ** M - matriz obtida pela função floyd_warshall()
+  @param int n - tamanho do grafo
+  @return int - vértice mais central
+*/
 int center_vertex (float **M, int n){
     int i, j;
 
@@ -177,7 +116,6 @@ int center_vertex (float **M, int n){
     }
 
     int menor = 0;
-
     for (i = 0; i < n; i++){
         if (aux[i] < aux[menor] || aux[menor] == -1)
             menor = i;
@@ -186,14 +124,13 @@ int center_vertex (float **M, int n){
     return menor;
 }
 
-int * fill_E(M_GRAPH * graph) {
-    int *E = (int*) malloc(sizeof(int)*graph->n);
-    for(int i = 0; i < graph->n; i++)
-        E[i] = 1;
-    return E;
-}
-
-float * sum_cols(M_GRAPH * graph, float **matrix) {
+/*
+  @desc - função que retorna um vetor com a soma das linhas de cada coluna de uma matriz
+  @param M_GRAPH * g - grafo
+  @param float ** matrix - matriz
+  @return float * - vetor da soma das linhas
+*/
+float * sum_rows(M_GRAPH * graph, float **matrix) {
     int i, j;
     float *aux = malloc(sizeof(float));
     for (j = 0; j < graph->n; j++) {
