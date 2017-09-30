@@ -16,13 +16,31 @@ int criterio2(M_GRAPH * graph) {
     int result = 0;
     int n = m_graph_nvertex(graph);
 
-    float *aux = sum_cols(graph, floyd_warshall(graph, E));
-    int result = 0;
     for (i = 0; i < n; i++) {
         if (aux[i] < aux[result])
             result = i;
     }
     return result;
+}
+
+int criterio3(M_GRAPH * graph) {
+  int i, maior, imaior;
+  int n = m_graph_nvertex(graph);
+  float ** matrix = floyd_warshall(graph, NULL);
+
+  maior = 0;
+  imaior = 0;
+
+  for(i = 0; i < n; i++) {
+    int bc = betweenness_centrality(matrix, n, i);
+    printf("\nBC %d: %d\n",i,bc);
+    if(bc > maior) {
+      maior = bc;
+      imaior = i;
+    }
+  }
+
+  return imaior;
 }
 
 
@@ -62,10 +80,10 @@ int main() {
 
   graph = receiveData(&E);
 
-  int crit2 = criterio2(graph);
+  int crit3 = criterio3(graph);
   int crit1 = criterio1(graph, E);
   printf("\nCritério 1: %d\n", crit1);
-  printf("\nCritério 2: %d\n", crit2);
+  printf("\nCritério 2: %d\n", crit3);
 
   return 0;
 }

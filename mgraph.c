@@ -70,7 +70,7 @@ void m_graph_free(M_GRAPH* g) {
 */
 float ** floyd_warshall (M_GRAPH* g, int * E){
     float ** M = g->matrix;
-    int n = g->n;
+    int n = g ->n;
     int i, j, k;
     for (k = 0; k < n; k++){
         for (i = 0; i < n; i++){
@@ -144,4 +144,18 @@ float * sum_rows(M_GRAPH * graph, float **matrix) {
     aux[j] = soma/div;
   }
   return aux;
+}
+
+int betweenness_centrality(float ** matrix, int n, int v) {
+  int i,j;
+  int soma = 0;
+
+  for(i = 0; i < n; i++) {
+    for(j = 0; j < n; j++) {
+      if(matrix[i][j] == matrix[i][v] + matrix[v][j] && i != j && i != v && j != v)
+        soma++;
+    }
+  }
+
+  return soma;
 }

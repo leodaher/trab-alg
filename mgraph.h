@@ -17,5 +17,6 @@ int m_graph_nvertex(M_GRAPH*);
 float ** floyd_warshall(M_GRAPH*, int * E);
 int center_vertex(float**, int);
 float * sum_rows(M_GRAPH*, float**);
+int betweenness_centrality(float **, int, int);
 
 #endif /* mgraph_h */
