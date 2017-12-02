@@ -2,28 +2,24 @@
 #include <stdlib.h>
 #include "mgraph.h"
 
+/*
+  	@desc - função que retorna o vértice resultado para o crtério 1
+  	@param M_GRAPH * g - grafo
+	@param int * E - vetor de pesos
+  	@return int - vértice para o critério 1
+*/
 int criterio1(M_GRAPH * graph, int * E) {
 
   int result = center_vertex(floyd_warshall(graph, E), m_graph_nvertex(graph));
   return result;
 }
 
+/*
+  	@desc - função que retorna o vértice resultado para o crtério 2
+  	@param M_GRAPH * g - grafo
+  	@return int - vértice para o critério 2
+*/
 int criterio2(M_GRAPH * graph) {
-    int i, j;
-
-    float **matrix = floyd_warshall(graph, NULL);
-    float *aux = sum_rows(graph, matrix);
-    int result = 0;
-    int n = m_graph_nvertex(graph);
-
-    for (i = 0; i < n; i++) {
-        if (aux[i] < aux[result])
-            result = i;
-    }
-    return result;
-}
-
-int criterio3(M_GRAPH * graph) {
   int i, maior, imaior;
   int n = m_graph_nvertex(graph);
   float ** matrix = floyd_warshall(graph, NULL);
@@ -33,7 +29,6 @@ int criterio3(M_GRAPH * graph) {
 
   for(i = 0; i < n; i++) {
     int bc = betweenness_centrality(matrix, n, i);
-    printf("\nBC %d: %d\n",i,bc);
     if(bc > maior) {
       maior = bc;
       imaior = i;
@@ -80,10 +75,10 @@ int main() {
 
   graph = receiveData(&E);
 
-  int crit3 = criterio3(graph);
+  int crit2 = criterio2(graph);
   int crit1 = criterio1(graph, E);
-  printf("\nCritério 1: %d\n", crit1);
-  printf("\nCritério 2: %d\n", crit3);
+  printf("\nCritério 1: %d", crit1);
+  printf("\nCritério 2: %d\n", crit2);
 
   return 0;
 }

@@ -125,27 +125,12 @@ int center_vertex (float **M, int n){
 }
 
 /*
-  @desc - função que retorna um vetor com a soma das linhas de cada coluna de uma matriz
-  @param M_GRAPH * g - grafo
+  @desc - função que retorna a quantidade de caminhos mínimos passando pelo vértice "v"
   @param float ** matrix - matriz
-  @return float * - vetor da soma das linhas
+  @param int n - tamanho da matriz
+  @param int v - vértice
+  @return int - valor de betweenness centrality de v
 */
-float * sum_rows(M_GRAPH * graph, float **matrix) {
-    int i, j;
-    float *aux = malloc(sizeof(float));
-    for (j = 0; j < graph->n; j++) {
-    float soma = 0;
-    int div = 0;
-        for (i = 0; i < graph->n; i++) {
-            soma += matrix[i][j];
-            if (matrix[i][j] > 0)
-                div++;
-        }
-    aux[j] = soma/div;
-  }
-  return aux;
-}
-
 int betweenness_centrality(float ** matrix, int n, int v) {
   int i,j;
   int soma = 0;
